@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/">
+        <file>res/screen_abstractLine.png</file>
+        <file>res/screen_dateWeather.png</file>
+        <file>res/screen_dreamSpace.png</file>
+        <file>res/screen_floatingParticles.png</file>
+        <file>res/screen_flyInBlueShy.png</file>
+        <file>res/screen_foldedSquare.png</file>
+        <file>res/screen_pastime.png</file>
+        <file>res/screen_starsOrbit.png</file>
+    </qresource>
+</RCC>
