@@ -1,12 +1,13 @@
-#include "widget.h"
-#include "scrollselector.h"
+#include "numberselector.h"
+#include "wallpaperselector.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    TestSelector w(0,60);
+    WallpaperSelector w;
+
     w.show();
     return a.exec();
 }

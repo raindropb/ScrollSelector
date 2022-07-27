@@ -16,16 +16,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    abstractselector.cpp \
     main.cpp \
-    scrollselector.cpp \
-    widget.cpp
+    numberselector.cpp \
+    wallpaperselector.cpp
 
 HEADERS += \
-    scrollselector.h \
-    widget.h
+    abstractselector.h \
+    numberselector.h \
+    wallpaperselector.h
 
-FORMS += \
-    widget.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
