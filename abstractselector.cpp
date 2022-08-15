@@ -1,4 +1,5 @@
 #include "abstractselector.h"
+#include <QDebug>
 
 AbstractSelector::AbstractSelector(QWidget *parent)
     : QWidget(parent)
@@ -7,6 +8,7 @@ AbstractSelector::AbstractSelector(QWidget *parent)
     m_animation.setTargetObject(this);
     m_animation.setPropertyName("m_curIndex");
     m_animation.setEasingCurve(QEasingCurve::OutQuart);
+    m_time_update.start();
 }
 
 double AbstractSelector::getCurIndex() const
@@ -16,8 +18,8 @@ double AbstractSelector::getCurIndex() const
 
 void AbstractSelector::setCurIndex(double index)
 {
-    // 判断是否启用循环
     m_curIndex = index;
+    // 判断是否启用循环
     if(m_isCircular)
     {
         if(qRound(m_curIndex)>m_resourceCount-1)
@@ -30,8 +32,15 @@ void AbstractSelector::setCurIndex(double index)
         m_curRoundIndex = qRound(m_curIndex);
         emit sigCurIndexChanged(m_curRoundIndex);
     }
-    //属性动画设置值会调用该接口，此处计算位置并刷新
+    double time = m_time_update.elapsed();
+    if(time < 17) return;
+    m_time_update.start();
     update();
+}
+
+int AbstractSelector::getRoundCurIndex() const
+{
+    return m_curRoundIndex;
 }
 
 void AbstractSelector::setResourceList(QVector<QVariant> resourceList)
@@ -122,10 +131,9 @@ void AbstractSelector::paintBackground(QPainter *painter, QRectF rectf)
 QPointF AbstractSelector::getBeginPoint()
 {
     if(m_orientation == Qt::Vertical)
-        return QPointF(width()/2,height()/2-m_scrollInterval*getCurIndex());
+        return  QPointF(width()/2,height()/2)-QPointF(0,m_scrollInterval*getCurIndex());
     else
-        return QPointF(width()/2-m_scrollInterval*getCurIndex(),height()/2);
-
+        return  QPointF(width()/2,height()/2)-QPointF(m_scrollInterval*getCurIndex(),0);
 }
 
 QPointF AbstractSelector::getObjectCenter(int index)
@@ -149,11 +157,12 @@ void AbstractSelector::paintEvent(QPaintEvent *event)
     for (int index=-m_prev; index < m_resourceCount+m_next; index++)
     {
         QPointF center = getObjectCenter(index);
-        if((int)m_curIndex == index)
+        if(m_curRoundIndex == index)
         {
             paintSelected(&painter,center,index);
         }
-        else
+//        else if((m_curRoundIndex -1) == index || (m_curRoundIndex + 1) == index )
+        else if(index >= m_curRoundIndex-m_prev && index <= m_curRoundIndex+m_next)
         {
             paintUnselected(&painter,center,index);
         }
@@ -188,6 +197,7 @@ bool AbstractSelector::event(QEvent *event)
             int offset = ( curMousePoint - dragPoint);
                         double offsetIndex  = double(offset)/double(m_scrollInterval);
                         double index = getCurIndex() - offsetIndex;
+                        qDebug()<<offsetIndex;
                         setCurIndex(index);
                         dragPoint = curMousePoint;
         } else if(mouse->type() == QEvent::MouseButtonRelease &&

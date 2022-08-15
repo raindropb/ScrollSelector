@@ -5,9 +5,9 @@ NumberSelector::NumberSelector(int startNumber, int endNumber, QWidget *parent)
       m_start(startNumber),
       m_end(endNumber)
 {
-    setOrientation(Qt::Horizontal);               // 滚动方向
-    setScrollInterval(spacer+size.width());    // 字体间隔
-    setCircularPrevNext(true,3,4);              // 循环补全
+    setOrientation(Qt::Vertical);               // 滚动方向
+    setScrollInterval(spacer+size.height());    // 字体间隔
+    setCircularPrevNext(true,1,2);              // 循环补全
     for(int i=m_start; i<m_end; i++)            // 创建数值
         this->addResource(i);
     checkCircular();                            // 检验是否需要补全

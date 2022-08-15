@@ -5,7 +5,7 @@ WallpaperSelector::WallpaperSelector(QWidget *parent)
 {
     setOrientation(Qt::Horizontal);               // 滚动方向
     setScrollInterval(spacer+imageSize.width());    // 字体间隔
-    setCircularPrevNext(false,1,2);              // 循环补全
+    setCircularPrevNext(true,1,1);              // 循环补全
     InitImageMsgs();    // 添加图片资源
     checkCircular();                            // 检验是否需要补全
 }

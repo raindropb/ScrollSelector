@@ -5,7 +5,7 @@
 #include <QPropertyAnimation>
 #include <QMouseEvent>
 #include <QPainter>
-
+#include <QTime>
 class AbstractSelector :public QWidget
 {
     Q_OBJECT
@@ -14,6 +14,7 @@ public:
     explicit AbstractSelector(QWidget *parent = nullptr);
     double getCurIndex() const;
     void setCurIndex(double index);
+    int getRoundCurIndex() const;
 
     // 选择对象列表
     void setResourceList(QVector<QVariant> resourceList);
@@ -28,6 +29,7 @@ public:
     // 循环滚动及补全
     void setCircularPrevNext(bool circular, int prev, int next);
     std::tuple<bool,int,int> getCircularPrevNext() const;
+    // 前后补全检查
     void checkCircular();
 
 protected:
@@ -60,10 +62,9 @@ protected:
 
     bool m_isCircular = false;
     int m_prev = 0, m_next = 0;     // 循环效果需补充的前后资源数
-
 private:
     QPropertyAnimation m_animation;             // 动画
-
+    QTime m_time_update;
 /***********************鼠标状态***********************/
     typedef enum tagScrollMouseDragInfo {
         MOUSE_RELEASE = 0,                      // 鼠标离开

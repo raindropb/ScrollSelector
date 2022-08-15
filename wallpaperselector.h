@@ -18,7 +18,6 @@ private:
     QSize imageSize = QSize(320,320);
     int spacer = 20;
     QColor background = Qt::black;   // 选择框背景颜
-
 };
 
 
